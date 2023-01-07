@@ -314,7 +314,7 @@ public class DenialDisplaysScript : MonoBehaviour
             Debug.LogFormat("[Denial Displays #{0}] There are {1} 2-digit displays that are multiples of 3. Adding {1}.", _moduleId, multsOfThree);
 
         // If a digit appears on all 5 displays...
-        if (Enumerable.Range(0, 10).ToString().Any(i => _displayNums.Select(j => j.ToString()).All(j => j.Contains(i))))
+        if (Enumerable.Range(0, 10).Any(i => _displayNums.Select(j => j.ToString().Select(k => k - '0')).All(j => j.Contains(i))))
         {
             _denialValue -= 3;
             Debug.LogFormat("[Denial Displays #{0}] A digit appears on all 5 displays. Subtracting 3.", _moduleId);
