@@ -281,11 +281,11 @@ public class DenialDisplaysScript : MonoBehaviour
             Debug.LogFormat("[Denial Displays #{0}] There are 3 or more 2-digit displays. Adding 1.", _moduleId);
         }
 
-        // If there is an odd number of even digits...
-        if (_displayNums.Join("").Where(i => (i - '0') % 2 == 0).Count() % 2 == 1)
+        // If there is an even number of odd digits...
+        if (_displayNums.Join("").Where(i => (i - '0') % 2 == 1).Count() % 2 == 0)
         {
             _denialValue++;
-            Debug.LogFormat("[Denial Displays #{0}] There is an odd number of even digits. Adding 1.", _moduleId);
+            Debug.LogFormat("[Denial Displays #{0}] There is an even number of odd digits. Adding 1.", _moduleId);
         }
 
         // For each displays in the 600s...
@@ -348,11 +348,11 @@ public class DenialDisplaysScript : MonoBehaviour
             Debug.LogFormat("[Denial Displays #{0}] There are 2 or more 1-digit displays. Subtracting 1.", _moduleId);
         }
 
-        // If there is an even number of odd digits...
-        if (_displayNums.Join("").Where(i => (i - '0') % 2 == 1).Count() % 2 == 0)
+        // If there is an odd number of even digits...
+        if (_displayNums.Join("").Where(i => (i - '0') % 2 == 0).Count() % 2 == 1)
         {
             _denialValue--;
-            Debug.LogFormat("[Denial Displays #{0}] There is an even number of odd digits. Subtracting 1.", _moduleId);
+            Debug.LogFormat("[Denial Displays #{0}] There is an odd number of even digits. Subtracting 1.", _moduleId);
         }
 
         // For each display in the 200s...
