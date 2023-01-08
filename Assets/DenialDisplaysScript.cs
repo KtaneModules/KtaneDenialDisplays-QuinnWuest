@@ -376,9 +376,9 @@ public class DenialDisplaysScript : MonoBehaviour
 
         // For each 3-digit display that is a multiple of 5...
         int multsOfFive = _displayNums.Where(i => i >= 100 && i <= 999 && i % 5 == 0).Count();
-        _denialValue += multsOfFive;
+        _denialValue -= multsOfFive;
         if (multsOfFive != 0)
-            Debug.LogFormat("[Denial Displays #{0}] There are {1} 3-digit displays that are multiples of 5. Adding {1}.", _moduleId, multsOfFive);
+            Debug.LogFormat("[Denial Displays #{0}] There are {1} 3-digit displays that are multiples of 5. Subtracting {1}.", _moduleId, multsOfFive);
 
         Debug.LogFormat("[Denial Displays #{0}] Final value for this stage: {1}", _moduleId, _denialValue);
         if (_denialValue <= 0)
