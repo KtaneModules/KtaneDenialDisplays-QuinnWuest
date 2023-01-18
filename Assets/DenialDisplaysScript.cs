@@ -303,8 +303,8 @@ public class DenialDisplaysScript : MonoBehaviour
         // If there are more even than odd digits...
         if (_displayNums.Join("").Where(i => (i - '0') % 2 == 0).Count() > _displayNums.Join("").Where(i => (i - '0') % 2 == 1).Count())
         {
-            _denialValue--;
-            Debug.LogFormat("[Denial Displays #{0}] There are more even digits than odd digits Subtracting 1.", _moduleId);
+            _denialValue++;
+            Debug.LogFormat("[Denial Displays #{0}] There are more even digits than odd digits. Adding 1.", _moduleId);
         }
 
         // For each 2-digit display that is a multiple of 3...
