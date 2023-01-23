@@ -173,7 +173,8 @@ public class DenialDisplaysScript : MonoBehaviour
                 _displayNums[rand] = Rnd.Range(10, 100);
             else
                 _displayNums[rand] = Rnd.Range(100, 1000);
-            _digitChangeAnimations[rand] = StartCoroutine(ChangeDigit(rand, before, _displayNums[rand]));
+            Audio.PlaySoundAtTransform("Deny" + Rnd.Range(1, 4).ToString(), transform);
+            _digitChangeAnimations[rand] = StartCoroutine(ChangeDisplay(rand, after: _displayNums[rand]));
             Debug.LogFormat("[Denial Displays #{0}] Screen {1} has been changed to {2}.", _moduleId, "ABCDE"[rand], _displayNums[rand]);
             Debug.LogFormat("[Denial Displays #{0}] Generating next stage.", _moduleId);
             Calculate();
@@ -200,6 +201,7 @@ public class DenialDisplaysScript : MonoBehaviour
                 _moduleSolved = true;
                 Module.HandlePass();
                 Audio.PlaySoundAtTransform("Solve", transform);
+                StartCoroutine(SolveAnimation());
                 Debug.LogFormat("[Denial Displays #{0}] The dials were set to the correct numbers. Module solved.", _moduleId);
             }
             else
@@ -408,11 +410,11 @@ public class DenialDisplaysScript : MonoBehaviour
         }
     }
 
-    private IEnumerator ChangeDigit(int display, int before, int after)
+    private IEnumerator ChangeDisplay(int display, int after = -1, string b = "", string a = "")
     {
-        Audio.PlaySoundAtTransform("Deny" + Rnd.Range(1, 4).ToString(), transform);
+        var before = _displayNums[display];
         var beforeScale = before > 99 ? new Vector3(0.001f, 0.001f, 100f) : before > 9 ? new Vector3(0.00125f, 0.00125f, 100f) : new Vector3(0.00165f, 0.00165f, 100f);
-        var afterScale = after > 99 ? new Vector3(0.001f, 0.001f, 100f) : after > 9 ? new Vector3(0.00125f, 0.00125f, 100f) : new Vector3(0.00165f, 0.00165f, 100f);
+        var afterScale = after != -1 ? (after > 99 ? new Vector3(0.001f, 0.001f, 100f) : after > 9 ? new Vector3(0.00125f, 0.00125f, 100f) : new Vector3(0.00165f, 0.00165f, 100f)) : new Vector3(0.00165f, 0.00165f, 100f);
         var duration = 0.1f;
         var elapsed = 0f;
         while (elapsed < duration)
@@ -421,7 +423,7 @@ public class DenialDisplaysScript : MonoBehaviour
             yield return null;
             elapsed += Time.deltaTime;
         }
-        DisplayTexts[display].text = after.ToString();
+        DisplayTexts[display].text = after != -1 ? after.ToString() : a;
         elapsed = 0f;
         while (elapsed < duration)
         {
@@ -430,6 +432,17 @@ public class DenialDisplaysScript : MonoBehaviour
             elapsed += Time.deltaTime;
         }
         DisplayTexts[display].transform.localScale = new Vector3(afterScale.x, afterScale.y, 100f);
+    }
+
+    private IEnumerator SolveAnimation()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (_digitChangeAnimations[i] != null)
+                StopCoroutine(_digitChangeAnimations[i]);
+            _digitChangeAnimations[i] = StartCoroutine(ChangeDisplay(i, a: "SOLVE"[i].ToString()));
+            yield return new WaitForSeconds(0.15f);
+        }
     }
 
 #pragma warning disable 0414
@@ -455,7 +468,7 @@ public class DenialDisplaysScript : MonoBehaviour
                 while (_dialNums[i] != num[i] - '0')
                 {
                     ArrowSels[i].OnInteract();
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.05f);
                 }
             }
             ConfirmSel.OnInteract();
@@ -477,7 +490,7 @@ public class DenialDisplaysScript : MonoBehaviour
                 while (_dialNums[i] != _expectedInput.ToString("000")[i] - '0')
                 {
                     ArrowSels[i].OnInteract();
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.05f);
                 }
             }
             ConfirmSel.OnInteract();
