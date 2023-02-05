@@ -294,13 +294,13 @@ public class DenialDisplaysScript : MonoBehaviour
         int sixhundredCount = _displayNums.Where(i => i >= 600 && i <= 699).Count();
         _denialValue += sixhundredCount;
         if (sixhundredCount != 0)
-            Debug.LogFormat("[Denial Displays #{0}] There are {1} displays in the 600s. Adding {1}.", _moduleId, sixhundredCount);
+            Debug.LogFormat("[Denial Displays #{0}] There {2} {1} display{3} in the 600s. Adding {1}.", _moduleId, sixhundredCount, sixhundredCount == 1 ? "is" : "are", sixhundredCount == 1 ? "" : "s");
 
         // For each 3-digit displays with digits in ascending order...
         int ascending = _displayNums.Where(i => i >= 100 && i.ToString()[0] < i.ToString()[1] && i.ToString()[1] < i.ToString()[2]).Count();
         _denialValue += ascending;
         if (ascending != 0)
-            Debug.LogFormat("[Denial Displays #{0}] There are {1} three digit displays with digits in ascending order. Adding {1}.", _moduleId, ascending);
+            Debug.LogFormat("[Denial Displays #{0}] There {2} {1} three digit display{3} with digits in ascending order. Adding {1}.", _moduleId, ascending, ascending == 1 ? "is" : "are", ascending == 1 ? "" : "s");
 
         // If there are more even than odd digits...
         if (_displayNums.Join("").Where(i => (i - '0') % 2 == 0).Count() > _displayNums.Join("").Where(i => (i - '0') % 2 == 1).Count())
@@ -313,7 +313,7 @@ public class DenialDisplaysScript : MonoBehaviour
         int multsOfThree = _displayNums.Where(i => i >= 10 && i <= 99 && i % 3 == 0).Count();
         _denialValue += multsOfThree;
         if (multsOfThree != 0)
-            Debug.LogFormat("[Denial Displays #{0}] There are {1} 2-digit displays that are multiples of 3. Adding {1}.", _moduleId, multsOfThree);
+            Debug.LogFormat("[Denial Displays #{0}] There {2} {1} 2-digit display{3} that are multiples of 3. Adding {1}.", _moduleId, multsOfThree, multsOfThree == 1 ? "is" : "are", multsOfThree == 1 ? "" : "s");
 
         // If a digit appears on all 5 displays...
         if (Enumerable.Range(0, 10).Any(i => _displayNums.Select(j => j.ToString().Select(k => k - '0')).All(j => j.Contains(i))))
@@ -340,7 +340,7 @@ public class DenialDisplaysScript : MonoBehaviour
         if (_displayNums.Join("").Count() >= 11 && _displayNums.Join("").Count() > 11)
         {
             _denialValue -= 2;
-            Debug.LogFormat("[Denial Displays #{0}] There are greater than 11 digits in total. Subtracting 2.", _moduleId);
+            Debug.LogFormat("[Denial Displays #{0}] There are more than 11 digits in total. Subtracting 2.", _moduleId);
         }
 
         // If there are 3 or more 1-digit displays...
@@ -361,13 +361,13 @@ public class DenialDisplaysScript : MonoBehaviour
         int twohundreds = _displayNums.Where(i => i >= 200 && i <= 299).Count();
         _denialValue -= twohundreds;
         if (twohundreds != 0)
-            Debug.LogFormat("[Denial Displays #{0}] There are {1} displays in the 200s. Subtracting {1}.", _moduleId, twohundreds);
+            Debug.LogFormat("[Denial Displays #{0}] There {2} {1} display{3} in the 200s. Subtracting {1}.", _moduleId, twohundreds, twohundreds == 1 ? "is" : "are", twohundreds == 1 ? "" : "s");
 
         // For each 3-digit display with digits in descending order...
         int descending = _displayNums.Where(i => i >= 100 && i.ToString()[0] > i.ToString()[1] && i.ToString()[1] > i.ToString()[2]).Count();
         _denialValue -= descending;
         if (descending != 0)
-            Debug.LogFormat("[Denial Displays #{0}] There are {1} 3-digit displays with digits in descending order. Subtracting {1}.", _moduleId, descending);
+            Debug.LogFormat("[Denial Displays #{0}] There {2} {1} 3-digit display{3} with digits in descending order. Subtracting {1}.", _moduleId, descending, descending == 1 ? "is" : "are", descending == 1 ? "" : "s");
 
         // If there are more odd than even digits...
         if (_displayNums.Join("").Where(i => (i - '0') % 2 == 1).Count() > _displayNums.Join("").Where(i => (i - '0') % 2 == 0).Count())
