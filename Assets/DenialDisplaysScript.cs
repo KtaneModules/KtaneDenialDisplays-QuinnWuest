@@ -347,7 +347,7 @@ public class DenialDisplaysScript : MonoBehaviour
         if (_displayNums.Where(i => i <= 9).Count() >= 3)
         {
             _denialValue--;
-            Debug.LogFormat("[Denial Displays #{0}] There are 2 or more 1-digit displays. Subtracting 1.", _moduleId);
+            Debug.LogFormat("[Denial Displays #{0}] There are 3 or more 1-digit displays. Subtracting 1.", _moduleId);
         }
 
         // If there is an odd number of even digits...
