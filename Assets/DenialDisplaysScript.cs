@@ -39,7 +39,7 @@ public class DenialDisplaysScript : MonoBehaviour
         {
             i => i[0] * i[4],
             i => i[3] * i[4] * 73,
-            i => i[0] = i[2]
+            i => i[0] + i[2]
         },
         new Func<int[], int>[3]
         {
