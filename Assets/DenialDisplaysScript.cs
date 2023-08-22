@@ -99,6 +99,7 @@ public class DenialDisplaysScript : MonoBehaviour
 
     private int[] _dialNums = new int[3];
     private readonly int[] _displayNums = new int[5];
+    private int[] _initialDisplayNums = new int[5];
     private int _denialValue;
 
     private bool _expectingConfirm;
@@ -130,6 +131,7 @@ public class DenialDisplaysScript : MonoBehaviour
             else
                 _displayNums[i] = Rnd.Range(100, 1000);
         }
+        _initialDisplayNums = _displayNums.ToArray();
         Debug.LogFormat("[Denial Displays #{0}] Generated screens: {1}.", _moduleId, _displayNums.Join(", "));
         Calculate();
         for (int i = 0; i < 5; i++)
@@ -166,7 +168,6 @@ public class DenialDisplaysScript : MonoBehaviour
             int rand = _screensLeftToChange.PickRandom();
             _changedScreens[rand] = true;
             int rnd = Rnd.Range(0, 3);
-            int before = _displayNums[rand];
             if (rnd == 0)
                 _displayNums[rand] = Rnd.Range(0, 10);
             else if (rnd == 1)
